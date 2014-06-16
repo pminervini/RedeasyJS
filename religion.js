@@ -1,6 +1,8 @@
 var express = require('express');
 var redis = require("redis");
 
+var port = 3000;
+
 var app = express();
 var client = redis.createClient();
 
@@ -27,6 +29,6 @@ app.get('/redis/set/:key/:value', function (req, res) {
 	});
 });
 
-var server = app.listen(3000, function() {
+var server = app.listen(port, function() {
 	console.log('Listening on port %d', server.address().port);
 });
