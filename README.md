@@ -5,7 +5,7 @@ A small REST interface to the Redis in-memory key-value data store
 ## Running
 
 	mkdir node_modules
-	npm install express redis
+	npm install express redis yargs
 	node redeasy.js
 
 ## Usage
