@@ -1,6 +1,6 @@
 # ReligionJS
 
-A small REST interface to the Redis distributed Key-Value store
+A small REST interface to the Redis in-memory key-value data store
 
 ## Running
 
