@@ -6,7 +6,7 @@ A small REST interface to the Redis in-memory key-value data store
 
 	mkdir node_modules
 	npm install express redis
-	node religion.js
+	node redeasy.js
 
 ## Usage
 
