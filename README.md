@@ -1,4 +1,4 @@
-# ReligionJS
+# RedeasyJS
 
 A small REST interface to the Redis in-memory key-value data store
 
