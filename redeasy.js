@@ -59,14 +59,14 @@ app.delete('/map/:key', function (req, res) {
 	});
 });
 
-app.post('/incr/:key', function (req, res) {
+app.post('/map/incr/:key', function (req, res) {
 	var key = req.params.key;
 	client.incr(key, function (err, reply) {
 		http_redis(err, reply, res);
 	});
 });
 
-app.post('/decr/:key', function (req, res) {
+app.post('/map/decr/:key', function (req, res) {
 	var key = req.params.key;
 	client.decr(key, function (err, reply) {
 		http_redis(err, reply, res);
@@ -112,6 +112,20 @@ app.post('/hash/:hash/:field', function (req, res) {
 	});
 });
 
+app.delete('/hash/:hash/:field', function (req, res) {
+	var hash = req.params.hash, field = req.params.field;
+	client.hdel(hash, field, function (err, reply) {
+		http_redis(err, reply, res);
+	});
+});
+
+app.post('/hash/incrby/:hash/:field', function (req, res) {
+	var hash = req.params.hash, field = req.params.field, value = req.body.value;
+	client.hincrby(hash, field, value, function (err, reply) {
+		http_redis(err, reply, res);
+	});
+});
+
 /* Lists */
 
 app.post('/list/lpop/:list', function (req, res) {
@@ -149,7 +163,7 @@ app.get('/list/:list/:lower/:upper', function (req, res) {
 	});
 });
 
-app.get('/list/llen/:list', function (req, res) {
+app.get('/list/len/:list', function (req, res) {
 	var list = req.params.list;
 	client.llen(list, function (err, reply) {
 		http_redis(err, reply, res);
@@ -179,14 +193,14 @@ app.get('/set/:sets', function (req, res) {
 	});
 });
 
-app.post('/set/sadd/:set', function (req, res) {
+app.post('/set/add/:set', function (req, res) {
 	var set = req.params.set, value = req.body.value;
 	client.sadd(set, value, function (err, reply) {
 		http_redis(err, reply, res);
 	});
 });
 
-app.post('/set/srem/:set', function (req, res) {
+app.post('/set/rem/:set', function (req, res) {
 	var set = req.params.set, value = req.body.value;
 	client.srem(set, value, function (err, reply) {
 		http_redis(err, reply, res);
@@ -202,7 +216,7 @@ app.get('/sset/:sset/:lower/:upper', function (req, res) {
 	});
 });
 
-app.post('/sset/zadd/:sset', function (req, res) {
+app.post('/sset/add/:sset', function (req, res) {
 	var sset = req.params.sset, score = req.body.score, value = req.body.value;
 	client.zadd(sset, score, value, function (err, reply) {
 		http_redis(err, reply, res);
