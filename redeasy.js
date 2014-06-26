@@ -172,7 +172,7 @@ app.get('/set/:set', function (req, res) {
 	});
 });
 
-app.get('/redis/:sets', function (req, res) {
+app.get('/set/:sets', function (req, res) {
 	var sets = req.params.sets;
 	client.sunion(sets, function (err, reply) {
 		http_redis(err, reply, res);
