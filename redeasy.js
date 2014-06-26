@@ -32,8 +32,8 @@ function http_redis(err, reply, res) {
 
 /*
  * Note to self:
- *	POST: tutto quello che cambia lo stato
- * 	PUT: poco usato
+ *	POST: tutto quello che cambia lo stato;
+ * 	GET: lettura; DELETE: cancellazione; PUT: poco usato.
  */
  
 /* Maps */
