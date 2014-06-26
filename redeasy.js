@@ -158,7 +158,7 @@ app.get('/list/llen/:list', function (req, res) {
 
 /* Sets */
 
-app.get('/set/sismember/:set/:value', function (req, res) {
+app.get('/set/:set/:value', function (req, res) {
 	var set = req.params.set, value = req.params.value;
 	client.sismember(set, value, function (err, reply) {
 		http_redis(err, reply, res);
