@@ -30,95 +30,126 @@ function http_redis(err, reply, res) {
 	res.end();
 }
 
-app.get('/redis/get/:key', function (req, res) {
+/*
+ * Note to self:
+ *	POST: tutto quello che cambia lo stato
+ * 	PUT: poco usato
+ */
+ 
+/* Maps */
+
+app.get('/map/:key', function (req, res) {
 	var key = req.params.key;
 	client.get(key, function (err, reply) {
 		http_redis(err, reply, res);
 	});
 });
 
-app.get('/redis/set/:key/:value', function (req, res) {
-	var key = req.params.key, value = req.params.value;
+app.post('/map/:key', function (req, res) {
+	var key = req.params.key, value = req.body.value;
 	client.set(key, value, function (err, reply) {
 		http_redis(err, reply, res);
 	});
 });
 
-app.get('/redis/del/:key', function (req, res) {
+app.delete('/map/:key', function (req, res) {
 	var key = req.params.key;
 	client.del(key, function (err, reply) {
 		http_redis(err, reply, res);
 	});
 });
 
-app.get('/redis/incr/:key', function (req, res) {
+app.post('/incr/:key', function (req, res) {
 	var key = req.params.key;
 	client.incr(key, function (err, reply) {
 		http_redis(err, reply, res);
 	});
 });
 
-app.get('/redis/decr/:key', function (req, res) {
+app.post('/decr/:key', function (req, res) {
 	var key = req.params.key;
 	client.decr(key, function (err, reply) {
 		http_redis(err, reply, res);
 	});
 });
 
-/* Expiration */push
+/* Expiration */
 
-app.get('/redis/expire/:key/:value', function (req, res) {
-	var key = req.params.key, value = req.params.value;
+app.post('/expire/:key', function (req, res) {
+	var key = req.params.key, value = req.body.value;
 	client.expire(key, value, function (err, reply) {
 		http_redis(err, reply, res);
 	});
 });
 
-app.get('/redis/ttl/:key', function (req, res) {
+app.get('/ttl/:key', function (req, res) {
 	var key = req.params.key;
 	client.ttl(key, function (err, reply) {
 		http_redis(err, reply, res);
 	});
 });
 
+/* Hashes */
+
+app.get('/hash/:hash', function (req, res) {
+	var hash = req.params.hash;
+	client.hgetall(hash, function (err, reply) {
+		http_redis(err, reply, res);
+	});
+});
+
+app.get('/hash/:hash/:field', function (req, res) {
+	var hash = req.params.hash, field = req.params.field;
+	client.hget(hash, field, function (err, reply) {
+		http_redis(err, reply, res);
+	});
+});
+
+app.post('/hash/:hash/:field', function (req, res) {
+	var hash = req.params.hash, field = req.params.field, value = req.body.value;
+	client.hset(hash, field, value, function (err, reply) {
+		http_redis(err, reply, res);
+	});
+});
+
 /* Lists */
 
-app.get('/redis/lpop/:list', function (req, res) {
+app.post('/list/lpop/:list', function (req, res) {
 	var list = req.params.list;
 	client.lpop(list, function (err, reply) {
 		http_redis(err, reply, res);
 	});
 });
 
-app.get('/redis/lpush/:list/:value', function (req, res) {
-	var list = req.params.list, value = req.params.value;
+app.post('/list/lpush/:list', function (req, res) {
+	var list = req.params.list, value = req.body.value;
 	client.lpush(list, value, function (err, reply) {
 		http_redis(err, reply, res);
 	});
 });
 
-app.get('/redis/rpop/:list', function (req, res) {
+app.post('/list/rpop/:list', function (req, res) {
 	var list = req.params.list;
 	client.rpop(list, function (err, reply) {
 		http_redis(err, reply, res);
 	});
 });
 
-app.get('/redis/rpush/:list/:value', function (req, res) {
-	var list = req.params.list, value = req.params.value;
+app.post('/list/rpush/:list', function (req, res) {
+	var list = req.params.list, value = req.body.value;
 	client.rpush(list, value, function (err, reply) {
 		http_redis(err, reply, res);
 	});
 });
 
-app.get('/redis/lrange/:list/:lower/:upper', function (req, res) {
+app.get('/list/:list/:lower/:upper', function (req, res) {
 	var list = req.params.list, lower = req.params.lower, upper = req.params.upper;
 	client.lrange(list, lower, upper, function (err, reply) {
 		http_redis(err, reply, res);
 	});
 });
 
-app.get('/redis/llen/:list', function (req, res) {
+app.get('/list/llen/:list', function (req, res) {
 	var list = req.params.list;
 	client.llen(list, function (err, reply) {
 		http_redis(err, reply, res);
@@ -127,34 +158,56 @@ app.get('/redis/llen/:list', function (req, res) {
 
 /* Sets */
 
-app.get('/redis/sadd/:set/:value', function (req, res) {
-	var set = req.params.set, value = req.params.value;
-	client.sadd(set, value, function (err, reply) {
-		http_redis(err, reply, res);
-	});
-});
-
-app.get('/redis/srem/:set/:value', function (req, res) {
-	var set = req.params.set, value = req.params.value;
-	client.srem(set, value, function (err, reply) {
-		http_redis(err, reply, res);
-	});
-});
-
-app.get('/redis/sismember/:set/:value', function (req, res) {
+app.get('/set/sismember/:set/:value', function (req, res) {
 	var set = req.params.set, value = req.params.value;
 	client.sismember(set, value, function (err, reply) {
 		http_redis(err, reply, res);
 	});
 });
 
-app.get('/redis/smembers/:set', function (req, res) {
+app.get('/set/:set', function (req, res) {
 	var set = req.params.set;
 	client.smembers(set, function (err, reply) {
 		http_redis(err, reply, res);
 	});
 });
 
+app.get('/redis/:sets', function (req, res) {
+	var sets = req.params.sets;
+	client.sunion(sets, function (err, reply) {
+		http_redis(err, reply, res);
+	});
+});
+
+app.post('/set/sadd/:set', function (req, res) {
+	var set = req.params.set, value = req.body.value;
+	client.sadd(set, value, function (err, reply) {
+		http_redis(err, reply, res);
+	});
+});
+
+app.post('/set/srem/:set', function (req, res) {
+	var set = req.params.set, value = req.body.value;
+	client.srem(set, value, function (err, reply) {
+		http_redis(err, reply, res);
+	});
+});
+
+/* Sorted Sets */
+
+app.get('/sset/:sset/:lower/:upper', function (req, res) {
+	var sset = req.params.sset, lower = req.params.lower, upper = req.params.upper;
+	client.zrange(sset, lower, upper, function (err, reply) {
+		http_redis(err, reply, res);
+	});
+});
+
+app.post('/sset/zadd/:sset', function (req, res) {
+	var sset = req.params.sset, score = req.body.score, value = req.body.value;
+	client.zadd(sset, score, value, function (err, reply) {
+		http_redis(err, reply, res);
+	});
+});
 
 /* Server */
 
