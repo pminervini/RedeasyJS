@@ -1,16 +1,17 @@
 {
   "name": "RedeasyJS",
-  "version": "1.0.0",
-  "description": "A packaged foo fooer for fooing foos",
+  "version": "0.0.0",
+  "description": "A small REST interface to the Redis in-memory key-value data store",
   "main": "redeasy.js",
   "dependencies": {
+    "body-parser": "~1.4.3",
     "debug": "~1.0.2",
-    "express": "~4.4.3",
-    "redis": "~0.10.3",
     "minimist": "~0.1.0",
-    "util": "~0.10.3",
+    "express": "~4.4.4",
+    "redis": "~0.10.3",
     "url": "~0.10.1",
-    "yargs": "~1.2.3"
+    "util": "~0.10.3",
+    "yargs": "~1.2.6"
   },
   "devDependencies": {},
   "scripts": {
