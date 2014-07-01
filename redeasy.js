@@ -238,9 +238,7 @@ app.post('/sset/add/:sset', function (req, res) {
 
 app.get('/channel/:channels', function (req, res) {
 	var channels = req.params.channels;
-	
 	var c = redis.createClient(rport, rhost, redis.client_options);
-	
 	c.subscribe(channels, function (error, reply) {
 		hwrite(error, reply, res, false);
 	});
@@ -251,10 +249,8 @@ app.get('/channel/:channels', function (req, res) {
 
 app.post('/channel/:channel', function (req, res) {
 	var channel = req.params.channel, message = req.body.message;
-	
 	res.connection.setTimeout(0);
 	var c = redis.createClient(rport, rhost, redis.client_options);
-	
 	c.publish(channel, message, function (error, reply) {
 		hsend(error, reply, res);
 	});
