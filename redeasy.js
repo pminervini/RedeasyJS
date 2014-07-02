@@ -197,6 +197,20 @@ app.get('/set/:set', function (req, res) {
 	});
 });
 
+app.get('/set/randmember/:set', function (req, res) {
+	var set = req.params.set;
+	client.srandmember(set, function (error, reply) {
+		hsend(error, reply, res);
+	});
+});
+
+app.get('/set/randmember/:set/:count', function (req, res) {
+	var set = req.params.set, count = req.params.count;
+	client.srandmember(set, count, function (error, reply) {
+		hsend(error, reply, res);
+	});
+});
+
 app.get('/set/:sets', function (req, res) {
 	var sets = req.params.sets;
 	client.sunion(sets, function (error, reply) {
@@ -217,6 +231,14 @@ app.post('/set/rem/:set', function (req, res) {
 		hsend(error, reply, res);
 	});
 });
+
+app.post('/set/pop/:set', function (req, res) {
+	var set = req.params.set;
+	client.spop(set, function (error, reply) {
+		hsend(error, reply, res);
+	});
+});
+
 
 /* Sorted Sets */
 
